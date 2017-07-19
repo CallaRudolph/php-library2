@@ -135,5 +135,20 @@
 
             $this->assertEquals("Brokeback Mountain", $test_book->getTitle());
         }
+
+        function testDelete()
+        {
+            $title = 'Monkey Butts and Stuff';
+            $test_book = new Book($title);
+            $test_book->save();
+
+            $title_2 = 'Seymour Butts';
+            $test_book_2 = new Book($title_2);
+            $test_book_2->save();
+
+            $test_book->delete();
+
+            $this->assertEquals([$test_book_2], Book::getAll());
+        }
     }
 ?>
