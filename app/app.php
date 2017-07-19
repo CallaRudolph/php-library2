@@ -24,6 +24,18 @@
         return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
     });
 
+    $app->post("/books", function() use($app) {
+        $title = $_POST['title'];
+        $id = $_POST['id'];
+        $book = new Book($title, $id);
+        $book->save();
+        return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
+    });
+
+    $app->post("/delete_books", function() use($app) {
+        Book::deleteAll();
+        return $app['twig']->render('index.html.twig');
+    });
 
     return $app;
 ?>

@@ -10,7 +10,7 @@
             {% if books is not empty %}
                 <ul>
                     {% for book in books %}
-                    <li><a href="/book/{{ book.getId }}"> {{book.getTitle }} </a></li>
+                    <li><a href="/book/{{ book.getId }}"> {{ book.getTitle }} </a></li>
                     {% endfor %}
                 </ul>
             {% else %}
@@ -20,7 +20,7 @@
             <h4>Add a new book:</h4>
             <form action="/books" method="post">
                 <label for="title">Book title:</label>
-                <input type="text" name="name" id="name">
+                <input type="text" name="title" id="title">
                 <button type="submit" class="btn-success">Add it!</button>
             </form>
 
