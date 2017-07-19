@@ -78,7 +78,7 @@
         return $app['twig']->render('search_books.html.twig', array('books' => $books_matching_search));
     });
 
-///////////
+////////////////////////////////////////////////
 
     $app->get('/authors', function() use ($app) {
         return $app['twig']->render('authors.html.twig', array('authors' => Author::getAll()));
@@ -138,6 +138,13 @@
         }
         return $app['twig']->render('search_authors.html.twig', array('authors' => $authors_matching_search));
     });
+
+////////////////////////////////////////////////////
+
+    $app->get('/added_patron', function() use ($app) {
+        return $app['twig']->render('index.html.twig', array('patron' => Patron::getAll()));
+    });
+
 
     return $app;
 ?>
