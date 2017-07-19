@@ -27,5 +27,21 @@
             // Assert
             $this->assertEquals($title, $result);
         }
+
+        function testSetTitle()
+        {
+            // Arrange
+            $title = 'Beats Me';
+            $test_book = new Book($title);
+
+            $new_title = 'Brokeback Mountain';
+
+            // Act
+            $test_book->setTitle($new_title);
+            $result = $test_book->getTitle();
+
+            // Assert
+            $this->assertEquals($new_title, $result);
+        }
     }
 ?>

@@ -16,5 +16,10 @@
             return $this->title;
         }
 
+        function setTitle($new_title)
+        {
+            $this->title = (string) $new_title;
+        }
+
     }
 ?>
