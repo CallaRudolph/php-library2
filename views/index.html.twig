@@ -4,9 +4,25 @@
         <title>Library</title>
     </head>
     <body>
-        <h1 class="jumbotron">Larralla's Library</h1>
+        <div class='container'>
+            <h1 class="jumbotron">Larralla's Library</h1>
 
-        <p><a href="/books">Click here</a> to see all of the books and to add a book.</p>
-        <p><a href="/authors">Click here</a> to see all of the authors and to add an author.</p>
+            <p><a href="/books">Click here</a> to see all of the books and to add a book.</p>
+            <p><a href="/authors">Click here</a> to see all of the authors and to add an author.</p>
+
+            <form action='/search_books'>
+                <label for='search'><h5>Enter a book title to search the library and locate:</h5></label>
+                <br>
+                <input type='text' name='search' id='search'>
+                <button type='submit' class='btn'>Search for book</button>
+           </form>
+
+           <form action='/search_authors'>
+               <label for='search'><h5>Enter an author name to search the library and locate:</h5></label>
+               <br>
+               <input type='text' name='search' id='search'>
+               <button type='submit' class='btn'>Search for author</button>
+          </form>
+       </div>
     </body>
 </html>

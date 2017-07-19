@@ -16,22 +16,22 @@
     use Symfony\Component\HttpFoundation\Request;
     Request::enableHttpMethodParameterOverride();
 
-    $app->get('/', function() use($app) {
+    $app->get('/', function() use ($app) {
         return $app['twig']->render('index.html.twig', array('authors' => Author::getAll(), 'books' => Book::getAll()));
     });
 
-    $app->get('/books', function() use($app) {
+    $app->get('/books', function() use ($app) {
         return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
     });
 
-    $app->post("/books", function() use($app) {
+    $app->post("/books", function() use ($app) {
         $title = $_POST['title'];
         $book = new Book($_POST['title']);
         $book->save();
         return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
     });
 
-    $app->post("/delete_books", function() use($app) {
+    $app->post("/delete_books", function() use ($app) {
         Book::deleteAll();
         return $app['twig']->render('index.html.twig');
     });
@@ -66,13 +66,25 @@
         return $app['twig']->render('index.html.twig', array('books' => Book::getAll()));
     });
 
+    $app->get('/search_books', function() use ($app) {
+        $books = Book::getAll();
+        $search = strtolower($_GET['search']);
+        $books_matching_search = array();
+        foreach($books as $book) {
+            if (strpos(strtolower($book->getTitle()), $search) !== false) {
+                array_push($books_matching_search, $book);
+            }
+        }
+        return $app['twig']->render('search_books.html.twig', array('books' => $books_matching_search));
+    });
+
 ///////////
 
-    $app->get('/authors', function() use($app) {
+    $app->get('/authors', function() use ($app) {
         return $app['twig']->render('authors.html.twig', array('authors' => Author::getAll()));
     });
 
-    $app->post("/authors", function() use($app) {
+    $app->post("/authors", function() use ($app) {
         $name = $_POST['name'];
         $id = $_POST['id'];
         $author = new Author($name, $id);
@@ -80,7 +92,7 @@
         return $app['twig']->render('authors.html.twig', array('authors' => Author::getAll()));
     });
 
-    $app->post("/delete_authors", function() use($app) {
+    $app->post("/delete_authors", function() use ($app) {
         Author::deleteAll();
         return $app['twig']->render('index.html.twig');
     });
@@ -90,7 +102,7 @@
        return $app['twig']->render('author.html.twig', array('author' => $author, 'books' => $author->getBooks(), 'all_books' => Book::getAll()));
    });
 
-   $app->post("/add_books", function() use($app){
+   $app->post("/add_books", function() use ($app){
        $book = Book::find($_POST['book_id']);
        $author = Author::find($_POST['author_id']);
        $author->addBook($book);

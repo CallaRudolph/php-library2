@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <title>Library</title>
+    </head>
+    <body>
+        <div class='container'>
+            {% if books is not empty %}
+                <h2>Here are the books that match your search in our library!</h2>
+                {% for book in books %}
+                    <ul>
+                        <li><h4>{{ book.getTitle }}</h4></li>
+                    </ul>
+                {% endfor %}
+            {% else %}
+                <h2>SORRY, we don't have any books that match your search.</h2>
+            {% endif %}
+            <br>
+            <p><a href='/'>Home</a></p>
+       </div>
+    </body>
+</html>
