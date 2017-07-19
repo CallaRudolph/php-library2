@@ -10,7 +10,7 @@
             {% if books is not empty %}
                 <ul>
                     {% for book in books %}
-                    <li><a href="/book/{{ book.getId }}"> {{ book.getTitle }} </a></li>
+                    <li><a href="/books/{{ book.getId }}"> {{ book.getTitle }} </a></li>
                     {% endfor %}
                 </ul>
             {% else %}
