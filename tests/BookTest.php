@@ -122,5 +122,18 @@
 
             $this->assertEquals($test_book, $result);
         }
+
+        function testUpdate()
+        {
+            $title = 'Beats Me';
+            $test_book = new Book($title);
+            $test_book->save();
+
+            $new_title = "Brokeback Mountain";
+
+            $test_book->update($new_title);
+
+            $this->assertEquals("Brokeback Mountain", $test_book->getTitle());
+        }
     }
 ?>
