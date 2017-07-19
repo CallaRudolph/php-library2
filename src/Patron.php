@@ -17,7 +17,7 @@
 
         function setPatronName($new_patron_name)
         {
-            // $this->new_patron_name = (string) $new_patron_name;
+            $this->new_patron_name = (string) $new_patron_name;
         }
 
         function getId()
