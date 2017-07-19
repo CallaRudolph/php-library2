@@ -19,6 +19,22 @@
         {
             $this->name = (string) $new_name;
         }
+
+        function getId()
+        {
+            return $this->id;
+        }
+
+        function save()
+        {
+            $executed = $GLOBALS['DB']->exec("INSERT INTO authors (name) VALUES ('{$this->getName()}');");
+            if ($executed) {
+                $this->id = $GLOBALS['DB']->lastInsertId();
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
 
