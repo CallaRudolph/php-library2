@@ -127,6 +127,17 @@
         return $app['twig']->render('index.html.twig', array('authors' => Author::getAll()));
     });
 
+    $app->get('/search_authors', function() use ($app) {
+        $authors = Author::getAll();
+        $search = strtolower($_GET['search']);
+        $authors_matching_search = array();
+        foreach($authors as $author) {
+            if (strpos(strtolower($author->getName()), $search) !== false) {
+                array_push($authors_matching_search, $author);
+            }
+        }
+        return $app['twig']->render('search_authors.html.twig', array('authors' => $authors_matching_search));
+    });
 
     return $app;
 ?>
