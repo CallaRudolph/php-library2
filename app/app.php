@@ -17,7 +17,7 @@
     Request::enableHttpMethodParameterOverride();
 
     $app->get('/', function() use($app) {
-        return $app['twig']->render('index.html.twig');
+        return $app['twig']->render('index.html.twig', array('authors' => Author::getAll(), 'books' => Book::getAll()));
     });
 
     $app->get('/books', function() use($app) {
@@ -26,8 +26,7 @@
 
     $app->post("/books", function() use($app) {
         $title = $_POST['title'];
-        $id = $_POST['id'];
-        $book = new Book($title, $id);
+        $book = new Book($_POST['title']);
         $book->save();
         return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
     });
@@ -39,8 +38,15 @@
 
     $app->get("/books/{id}", function($id) use ($app) {
        $book = Book::find($id);
-       return $app['twig']->render('book.html.twig', array('book' => $book));
+       return $app['twig']->render('book.html.twig', array('book' => $book, 'authors' => $book->getAuthors(), 'all_authors' => Author::getAll()));
    });
+
+    $app->post("/add_authors", function() use($app){
+        $author = Author::find($_POST['author_id']);
+        $book = Book::find($_POST['book_id']);
+        $book->addAuthor($author);
+        return $app['twig']->render('book.html.twig', array('book' => $book, 'books' => Book::getAll(), 'authors' => $book->getAuthors(), 'all_authors' => Author::getAll()));
+    });
 
     $app->get("/books/{id}/edit", function($id) use ($app) {
         $book = Book::find($id);
@@ -51,7 +57,7 @@
         $title = $_POST['title'];
         $book = Book::find($id);
         $book->update($title);
-        return $app['twig']->render('book.html.twig', array('book' => $book));
+        return $app['twig']->render('book.html.twig', array('book' => $book, 'authors' => $book->getAuthors(), 'all_authors' => Author::getAll()));
     });
 
     $app->delete("/books/{id}", function($id) use ($app) {
