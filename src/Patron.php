@@ -17,12 +17,23 @@
 
         function setPatronName($new_patron_name)
         {
-            $this->new_patron_name = (string) $new_patron_name;
+            $this->patron_name = (string) $new_patron_name;
         }
 
         function getId()
         {
             return $this->id;
+        }
+
+        function save()
+        {
+            $executed = $GLOBALS['DB']->exec("INSERT INTO patrons (patron_name) VALUES ('{$this->getPatronName()}');");
+            if ($executed) {
+                $this->id = $GLOBALS['DB']->lastInsertId();
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 ?>

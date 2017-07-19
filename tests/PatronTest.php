@@ -29,5 +29,48 @@
             // Assert
             $this->assertEquals($patron_name, $result);
         }
+
+        function testSetPatronName()
+        {
+            // Arrange
+            $patron_name = 'Fifi';
+            $test_patron = new Patron($patron_name);
+
+            $new_patron_name = 'Shaquifa';
+
+            // Act
+            $test_patron->setPatronName($new_patron_name);
+            $result = $test_patron->getPatronName();
+
+            // Assert
+            $this->assertEquals($new_patron_name, $result);
+        }
+
+        function testGetId()
+        {
+            // Arrange
+            $patron_name = 'Beats Me';
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            // Act
+            $result = $test_patron->getId();
+
+            // Assert
+            $this->assertTrue(is_numeric($result));
+        }
+
+        function testSave()
+        {
+            //Arrange
+            $patron_name = "Ollie";
+            $test_patron= new Patron($patron_name);
+
+            //Act
+            $executed = $test_patron->save();
+
+            // Assert
+            $this->assertTrue($executed, "Patron not successfully saved to database");
+        }
     }
 ?>
