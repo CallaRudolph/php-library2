@@ -90,7 +90,7 @@
         function delete()
         {
             $executed = $GLOBALS['DB']->exec("DELETE FROM books WHERE id = {$this->getId()};");
-            if ($executed){
+            if ($executed) {
                 return true;
             } else {
                 return false;

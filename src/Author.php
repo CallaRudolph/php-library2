@@ -59,6 +59,43 @@
             }
         }
 
+        static function find($search_id)
+        {
+            $found_author = null;
+            $returned_authors = $GLOBALS['DB']->prepare("SELECT * FROM authors WHERE id = :id");
+            $returned_authors->bindParam(':id', $search_id, PDO::PARAM_STR);
+            $returned_authors->execute();
+            foreach($returned_authors as $author) {
+                $name = $author['name'];
+                $id = $author['id'];
+                if ($id == $search_id) {
+                    $found_author = new Author($name, $id);
+                }
+            }
+            return $found_author;
+        }
+
+        function update($new_name)
+        {
+            $executed = $GLOBALS['DB']->exec("UPDATE authors SET name = '{$new_name}' WHERE id = {$this->getId()};");
+            if ($executed) {
+                $this->setName($new_name);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function delete()
+        {
+            $executed = $GLOBALS['DB']->exec("DELETE FROM authors WHERE id = {$this->getId()};");
+            if ($executed) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
 
 
