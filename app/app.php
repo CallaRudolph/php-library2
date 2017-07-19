@@ -20,7 +20,9 @@
         return $app['twig']->render('index.html.twig');
     });
 
-    
+    $app->get('/books', function() use($app) {
+        return $app['twig']->render('books.html.twig', array('books' => Book::getAll()));
+    });
 
 
     return $app;
