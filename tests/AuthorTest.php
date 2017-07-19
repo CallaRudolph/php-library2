@@ -14,6 +14,12 @@
 
     class AuthorTest extends PHPUnit_Framework_TestCase
     {
+
+        protected function tearDown()
+        {
+            Author::deleteAll();
+        }
+        
         function testGetName()
         {
             $name = "JK Rowling";
@@ -51,11 +57,42 @@
         function testSave()
         {
             $name = "Larry the Amazing";
-            $test_book = new Book($name);
+            $test_author = new Book($name);
 
-            $executed = $test_book->save();
+            $executed = $test_author->save();
 
             $this->assertTrue($executed, "Author not successfully saved to database");
+        }
+
+        function testGetAll()
+        {
+            $name = "Calla the Pretty Cool I Guess";
+            $test_author = new Author ($name);
+            $test_author->save();
+
+            $name_2 = "Dylan the Dastardly";
+            $test_author_2 = new Author ($name_2);
+            $test_author_2->save();
+
+            $result = Author::getAll();
+
+            $this->assertEquals([$test_author, $test_author_2], $result);
+        }
+
+        function testDeleteAll()
+        {
+            $name = "Steve the Salacious";
+            $test_author = new Author ($name);
+            $test_author->save();
+
+            $name_2 = "Nathan the National Hero";
+            $test_author_2 = new Author ($name_2);
+            $test_author_2->save();
+
+            Author::deleteAll();
+            $result = Author::getAll();
+
+            $this->assertEquals([], $result);
         }
     }
 

@@ -35,6 +35,30 @@
                 return false;
             }
         }
+
+        static function getAll()
+        {
+            $returned_authors = $GLOBALS['DB']->query("SELECT * FROM authors;");
+            $authors = array();
+            foreach ($returned_authors as $author) {
+                $name = $author ['name'];
+                $id = $author ['id'];
+                $new_author = new Author($name, $id);
+                array_push($authors, $new_author);
+            }
+            return $authors;
+        }
+
+        static function deleteAll()
+        {
+            $executed = $GLOBALS['DB']->exec("DELETE FROM authors;");
+            if ($executed) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
 
 
