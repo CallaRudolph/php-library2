@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <title>Library Patrons</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Here are all of the patrons:</h1>
+
+            {% if patrons is not empty %}
+                <ul>
+                    {% for patron in patrons %}
+                    <li><a href="/patrons/{{ patron.getId }}"> {{ patron.getPatronName }} </a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>There are no patrons registered in the library!</p>
+            {% endif %}
+
+            <form action='/patrons' method="post">
+                <label for='patron_name'><h5>New to the library? Enter your name to be added to the patron list:</h5></label>
+                <br>
+                <input type='text' name='patron_name' id='patron_name'>
+                <button type='submit' class='btn'>Enter Name</button>
+            </form>
+
+
+            <h3><a href="/">Go home</a></h3>
+        </div>
+    </body>
+</html>

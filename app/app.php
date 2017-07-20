@@ -1,7 +1,8 @@
-<?php 
+<?php
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/Book.php";
     require_once __DIR__."/../src/Author.php";
+    require_once __DIR__."/../src/Patron.php";
 
     $server = "mysql:host=localhost:8889;dbname=library";
     $username = "root";
@@ -141,10 +142,31 @@
 
 ////////////////////////////////////////////////////
 
-    $app->get('/added_patron', function() use ($app) {
-        return $app['twig']->render('index.html.twig', array('patron' => Patron::getAll()));
+    $app->get('/patrons', function() use ($app) {
+        return $app['twig']->render('patrons.html.twig', array('patrons' => Patron::getAll()));
     });
 
+    $app->post("/patrons", function() use ($app) {
+        $patron_name = $_POST['patron_name'];
+        $id = $_POST['id'];
+        $patron = new Patron($patron_name, $id);
+        $patron->save();
+        return $app['twig']->render('patrons.html.twig', array('patrons' => Patron::getAll()));
+    });
+
+    $app->get("/patrons/{id}", function($id) use ($app) {
+       $patron = Patron::find($id);
+       return $app['twig']->render('patron.html.twig', array('patron' => $patron, 'books' => $book->getBooks(), 'all_books' => Book::getAll()));
+   });
+
+    $app->post("/add_books_patrons", function() use ($app) {
+        $patron = Patron::find($_POST['patron_name']);
+        $book = Book::find($_POST['book_id']);
+        $id = $_POST['id'];
+        $patron = new Patron($patron_name, $id);
+        $patron->save();
+        return $app['twig']->render('patron.html.twig', array('patrons' => Patron::getAll(), 'book' => $book));
+    });
 
     return $app;
 ?>

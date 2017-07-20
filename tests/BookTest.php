@@ -188,5 +188,19 @@
 
             $this->assertEquals($test_book->getAuthors(), [$test_author, $test_author2]);
         }
+
+        function testUpdateCheckedOut()
+        {
+            //Arrange
+            $title = "Wash the dog";
+            $checked_out = false;
+            $test_book = new Book($title);
+            $test_book->save();
+            $new_checked_out = true;
+            //Act
+            $test_book->updateCheckedOut($new_checked_out);
+            //Assert
+            $this->assertEquals(true, $test_book->getCheckedOut());
+        }
     }
 ?>

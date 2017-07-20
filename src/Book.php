@@ -2,12 +2,14 @@
     class Book
     {
         private $title;
+        private $checked_out;
         private $id;
 
 
         function __construct($title, $id = null)
         {
             $this->title = $title;
+            $this->checked_out = false;
             $this->id = $id;
         }
 
@@ -26,15 +28,15 @@
             return $this->id;
         }
 
-    //     function getCheckedOut()
-    //    {
-    //        return $this->checked_out;
-    //    }
-       //
-    //    function setCheckedOut($new_checked_out)
-    //    {
-    //       $this->checked_out = boolval($new_checked_out);
-    //    }
+        function getCheckedOut()
+       {
+           return $this->checked_out;
+       }
+
+       function setCheckedOut($new_checked_out)
+       {
+          $this->checked_out = boolval($new_checked_out);
+       }
 
         function save()
         {
@@ -133,15 +135,30 @@
             return $authors;
         }
 
-        // function updateCheckedOut($new_checked_out)
-        // {
-        //     $executed = $GLOBALS['DB']->exec("UPDATE books SET checked_out = '{$new_checked_out}' WHERE id = {$this->getId()};");
-        //     if ($executed) {
-        //     $this->setCheckedOut($new_checked_out);
-        //     return true;
-        //     }   else {
-        //         return false;
-        //     }
-        // }
+        function getPatrons()
+        {
+            $returned_patrons = $GLOBALS['DB']->query("SELECT patrons.* FROM books
+                JOIN books_patrons ON (books_patrons.copies = copies)
+                JOIN patrons ON (patrons.id = books_patrons.patron_id)
+                WHERE books.id = {$this->getId()};");
+            $patrons = array();
+            foreach($returned_patrons as $patron) {
+                $patron_name = $patron['name'];
+                $id = $patron['id'];
+                $new_patron_name = new Patron($patron_name, $id);
+                array_push($patrons, $new_patron_name);
+            }
+            return $patrons;
+        }
+        function updateCheckedOut($new_checked_out)
+        {
+            $executed = $GLOBALS['DB']->exec("UPDATE books SET checked_out = '{$new_checked_out}' WHERE id = {$this->getId()};");
+            if ($executed) {
+            $this->setCheckedOut($new_checked_out);
+            return true;
+            }   else {
+                return false;
+            }
+        }
     }
 ?>

@@ -1,34 +1,35 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <title>Library {Patrons}</title>
-    </head>
-    <body>
-        <div class="container">
-            <h1>Here are all of the patrons:</h1>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Library</title>
+  </head>
+  <body>
+    <h1>{{ patron.getPatronName }}</h1>
 
-            {% if patrons is not empty %}
-                <ul>
-                    {% for patron in patrons %}
-                    <li><a href="/books/{{ book.getId }}"> {{ book.getTitle }} </a></li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>There are no books in the library!</p>
-            {% endif %}
+    {% if patrons is not empty %}
+        <p>Here are the books checked out by {{ patron.getPatronName }}:</p>
+        <ul>
+            {% for book in books %}
+                <li>{{ book.getTitle }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-            <h4>Add a new book:</h4>
-            <form action="/books" method="post">
-                <label for="title">Book title:</label>
-                <input type="text" name="title" id="title">
-                <button type="submit" class="btn-success">Add it!</button>
-            </form>
+    <h4>Add a book to this patron's account:</h4>
 
-            <form action="/delete_books" method="post">
-                <button type="submit" class="btn-danger">Burn all books</button>
-            </form>
+    <form action='/patron_books' method='post'>
+        <input id="patron_id" name="patron_id" type="hidden" value="{{ patron.getId }}">
+        <label for='book_id'>Select a book</label>
+        <select id='book_id' name='book_id' type='text'><br>
+          {% for book in all_books %}
+            <option value="{{ book.getId }}"> {{ book.getTitle }} </option>
+          {% endfor %}
+      </select>
 
-            <h3><a href="/">Go home</a></h3>
-        </div>
-    </body>
+        <button type='submit'>Add book</button>
+    </form>
+
+    <p><a href="/patron/{{ patron.getId }}/edit">Edit this patron</a></p>
+    <p><a href='/'>Home</a></p>
+  </body>
 </html>
