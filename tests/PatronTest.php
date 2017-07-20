@@ -17,6 +17,13 @@
 
     class PatronTest extends PHPUnit_Framework_TestCase
     {
+        protected function tearDown()
+        {
+            Book::deleteAll();
+            Author::deleteAll();
+            Patron::deleteAll();
+        }
+        
         function testGetPatronName()
         {
             // Arrange
@@ -71,6 +78,37 @@
 
             // Assert
             $this->assertTrue($executed, "Patron not successfully saved to database");
+        }
+
+        function testGetAll()
+        {
+            $patron_name = 'Jimmy';
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            $patron_name2 = 'Sally';
+            $test_patron2 = new Patron($patron_name2);
+            $test_patron2->save();
+
+            $result = Patron::getAll();
+
+            $this->assertEquals([$test_patron, $test_patron2], $result);
+        }
+
+        function testDeleteAll()
+        {
+            $patron_name = 'Frankie';
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            $patron_name2 = 'Brokeback Al';
+            $test_patron2 = new Patron($patron_name2);
+            $test_patron2->save();
+
+            Patron::deleteAll();
+            $result = Patron::getAll();
+
+            $this->assertEquals([], $result);
         }
     }
 ?>

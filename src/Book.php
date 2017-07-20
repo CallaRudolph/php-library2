@@ -26,6 +26,16 @@
             return $this->id;
         }
 
+    //     function getCheckedOut()
+    //    {
+    //        return $this->checked_out;
+    //    }
+       //
+    //    function setCheckedOut($new_checked_out)
+    //    {
+    //       $this->checked_out = boolval($new_checked_out);
+    //    }
+
         function save()
         {
             $executed = $GLOBALS['DB']->exec("INSERT INTO books (title) VALUES ('{$this->getTitle()}');");
@@ -122,5 +132,16 @@
             }
             return $authors;
         }
+
+        // function updateCheckedOut($new_checked_out)
+        // {
+        //     $executed = $GLOBALS['DB']->exec("UPDATE books SET checked_out = '{$new_checked_out}' WHERE id = {$this->getId()};");
+        //     if ($executed) {
+        //     $this->setCheckedOut($new_checked_out);
+        //     return true;
+        //     }   else {
+        //         return false;
+        //     }
+        // }
     }
 ?>

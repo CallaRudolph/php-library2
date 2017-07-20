@@ -35,5 +35,28 @@
                 return false;
             }
         }
+
+        static function getAll()
+        {
+            $returned_patrons = $GLOBALS['DB']->query("SELECT * FROM patrons;");
+            $patrons = array();
+            foreach ($returned_patrons as $patron) {
+                $patron_name = $patron['patron_name'];
+                $id = $patron['id'];
+                $new_patron = new Patron($patron_name, $id);
+                array_push($patrons, $new_patron);
+            }
+            return $patrons;
+        }
+
+        static function deleteAll()
+        {
+            $executed = $GLOBALS['DB']->exec("DELETE FROM patrons;");
+            if ($executed) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 ?>
