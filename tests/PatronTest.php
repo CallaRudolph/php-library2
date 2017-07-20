@@ -139,5 +139,19 @@
             $this->assertEquals("Juliette", $test_patron->getPatronName());
         }
 
+        function testDelete()
+        {
+            $patron_name = 'Fernando';
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            $patron_name_2 = 'Shamalama';
+            $test_patron_2 = new Patron($patron_name_2);
+            $test_patron_2->save();
+
+            $test_patron->delete();
+
+            $this->assertEquals([$test_patron_2], Patron::getAll());
+        }
     }
 ?>
