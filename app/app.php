@@ -105,7 +105,7 @@
 
    $app->post("/add_books", function() use ($app){
        $book = Book::find($_POST['book_id']);
-       $author = Author::find($_POST['author_id']);
+
        $author->addBook($book);
        return $app['twig']->render('author.html.twig', array('author' => $author, 'authors' => Author::getAll(), 'books' => $author->getBooks(), 'all_books' => Book::getAll()));
    });
