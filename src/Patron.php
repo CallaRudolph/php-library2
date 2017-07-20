@@ -58,5 +58,21 @@
                 return false;
             }
         }
+
+        static function find($search_id)
+        {
+            $found_patron = null;
+            $returned_patrons = $GLOBALS['DB']->prepare("SELECT * FROM patrons WHERE id = :id");
+            $returned_patrons->bindParam(':id', $search_id, PDO::PARAM_STR);
+            $returned_patrons->execute();
+            foreach($returned_patrons as $patron) {
+                $patron_name = $patron['patron_name'];
+                $id = $patron['id'];
+                if ($id == $search_id) {
+                    $found_patron = new Patron($patron_name, $id);
+                }
+            }
+            return $found_patron;
+        }
     }
 ?>

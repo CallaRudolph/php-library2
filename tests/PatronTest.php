@@ -23,7 +23,7 @@
             Author::deleteAll();
             Patron::deleteAll();
         }
-        
+
         function testGetPatronName()
         {
             // Arrange
@@ -109,6 +109,21 @@
             $result = Patron::getAll();
 
             $this->assertEquals([], $result);
+        }
+
+        function testFind()
+        {
+            $patron_name = 'Jaqualda';
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            $patron_name2 = 'Maximus Baximus';
+            $test_patron2 = new Patron($patron_name2);
+            $test_patron2->save();
+
+            $result = Patron::find($test_patron->getId());
+
+            $this->assertEquals($test_patron, $result);
         }
     }
 ?>

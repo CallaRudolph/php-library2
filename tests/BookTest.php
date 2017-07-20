@@ -21,6 +21,7 @@
         {
             Book::deleteAll();
             Author::deleteAll();
+            Patron::deleteAll();
         }
 
         function testGetTitle()

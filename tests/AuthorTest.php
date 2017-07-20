@@ -20,6 +20,7 @@
         {
             Author::deleteAll();
             Book::deleteAll();
+            Patron::deleteAll();
         }
 
         function testGetName()
@@ -171,7 +172,7 @@
 
             $test_author->addBook($test_book);
             $test_author->addBook($test_book2);
-            
+
             $this->assertEquals($test_author->getBooks(), [$test_book, $test_book2]);
         }
     }
