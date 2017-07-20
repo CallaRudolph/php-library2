@@ -125,5 +125,19 @@
 
             $this->assertEquals($test_patron, $result);
         }
+
+        function testUpdate()
+        {
+            $patron_name = 'Julia';
+            $test_patron = new Patron($patron_name);
+            $test_patron->save();
+
+            $new_patron_name = "Juliette";
+
+            $test_patron->update($new_patron_name);
+
+            $this->assertEquals("Juliette", $test_patron->getPatronName());
+        }
+
     }
 ?>

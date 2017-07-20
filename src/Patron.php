@@ -74,5 +74,16 @@
             }
             return $found_patron;
         }
+
+        function update($new_patron_name)
+        {
+            $executed = $GLOBALS['DB']->exec("UPDATE patrons SET patron_name = '{$new_patron_name}' WHERE id = {$this->getId()};");
+            if ($executed) {
+                $this->setPatronName($new_patron_name);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 ?>
