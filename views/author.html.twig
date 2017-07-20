@@ -10,7 +10,7 @@
         <p>Here are the books by this author:</p>
         <ul>
             {% for book in books %}
-                <li>{{ book.getTitle }}</li>
+                <li><a href="/books/{{ book.getId }}/remove">{{ book.getTitle }}</a></li>
             {% endfor %}
         </ul>
     {% endif %}

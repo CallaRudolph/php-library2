@@ -9,7 +9,7 @@
         function __construct($title, $id = null)
         {
             $this->title = $title;
-            $this->checked_out = false;
+            $this->checked_out = $checked_out;
             $this->id = $id;
         }
 
@@ -159,6 +159,11 @@
             }   else {
                 return false;
             }
+        }
+
+        function removeAuthor()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM authors_books WHERE book_id = {$this->getId()} AND author_id = {$author_id};");
         }
     }
 ?>

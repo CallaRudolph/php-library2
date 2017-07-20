@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <title>Remove Author from Book</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Do you want to remove {{ book.getTitle }} from this prestiged author?</h2>
+
+            <form action="/books/{{ book.getId }}" method="post">
+              <input name="_method" type="hidden" value="delete">
+
+              <button type="submit">Yes</button>
+            </form>
+
+            <h3><a href="/">Nevermind</a></h3>
+        </div>
+    </body>
+</html>

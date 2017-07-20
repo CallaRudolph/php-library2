@@ -11,7 +11,7 @@
 
     $app = new Silex\Application();
 
-    $app->register(new Silex\Provider\TwigServiceProvider(), array(                          'twig.path'=>__DIR__."/../views"
+    $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path'=>__DIR__."/../views"
     ));
 
     use Symfony\Component\HttpFoundation\Request;
@@ -156,16 +156,47 @@
 
     $app->get("/patrons/{id}", function($id) use ($app) {
        $patron = Patron::find($id);
-       return $app['twig']->render('patron.html.twig', array('patron' => $patron, 'books' => $book->getBooks(), 'all_books' => Book::getAll()));
+       return $app['twig']->render('patron.html.twig', array('patron' => $patron, 'all_books' => Book::getAll()));
    });
 
-    $app->post("/add_books_patrons", function() use ($app) {
+    $app->post("/patron_books", function() use ($app) {
         $patron = Patron::find($_POST['patron_name']);
         $book = Book::find($_POST['book_id']);
         $id = $_POST['id'];
         $patron = new Patron($patron_name, $id);
         $patron->save();
-        return $app['twig']->render('patron.html.twig', array('patrons' => Patron::getAll(), 'book' => $book));
+        return $app['twig']->render('patron.html.twig', array('patrons' => Patron::getAll(), 'book' => $book, 'all_books' => Book::GetAll()));
+    });
+
+    $app->get("/patrons/{id}/edit", function($id) use ($app) {
+        $patron = Patron::find($id);
+        return $app['twig']->render('patron_edit.html.twig', array('patron' => $patron));
+    });
+
+    $app->patch("/patrons/{id}", function($id) use ($app) {
+        $patron_name = $_POST['patron_name'];
+        $patron = Patron::find($id);
+        $patron->update($patron_name);
+        return $app['twig']->render('patron.html.twig', array('patron' => $patron, 'books' => $patron->getBooks(), 'all_books' => Book::getAll()));
+    });
+
+    $app->delete("/patrons/{id}", function($id) use ($app) {
+        $patron = Patron::find($id);
+        $patron->delete();
+        return $app['twig']->render('index.html.twig', array('patrons' => Patron::getAll()));
+    });
+
+    /////////-remove one relationship, not functioning!-///////////
+
+    $app->get("/books/{id}/remove", function($id) use ($app) {
+        $book = Book::find($id);
+        return $app['twig']->render('remove_author_book.html.twig', array('book' => $book));
+    });
+
+    $app->get("/books/{id}", function($id) use ($app) {
+        $book = Book::find($id);
+        $this->removeBook($book);
+        return $app['twig']->render('index.html.twig');
     });
 
     return $app;
